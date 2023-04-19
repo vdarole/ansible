@@ -1,0 +1,11 @@
+---
+   - name: Copy Web pages.
+     hosts: web01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Copy SQL Script
+       copy: src=/home/ansible/web-db/source/web-pages/ dest=/var/www/html/
+
+...

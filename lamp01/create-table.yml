@@ -1,0 +1,13 @@
+---
+   - name: Create table on database.
+     hosts: lamp01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Copy SQL Script
+       copy: src=/home/ansible/ansible/lamp01/source/create-table.sql dest=/tmp/create-table.sql
+
+     - name: Create table using SQL Script
+       shell: mysql -u root --password=redhat -D jobsearch < /tmp/create-table.sql
+...

@@ -1,0 +1,10 @@
+---
+   - name: Copy repos.
+     hosts: web01 db01
+     become: true
+     become_user: root
+     tasks:
+     - name: Copy repos
+       copy: src=/etc/yum.repos.d/local-rhel7.repo dest=/etc/yum.repos.d/local-rhel7.repo
+
+...

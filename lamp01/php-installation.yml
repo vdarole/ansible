@@ -1,0 +1,12 @@
+---
+   - name: Install of PHP packages.
+     hosts: lamp01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Installation of PHP
+       yum:
+         name: php, php-mysqli 
+         state: present
+... 

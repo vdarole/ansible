@@ -1,0 +1,26 @@
+---
+   - name: MariaDB Server Installation.
+     hosts: lamp01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Installation of MariaDB
+       yum:
+#         name: mariadb, mariadb-server, python3-PyMySQL
+         name: mariadb, mariadb-server, MySQL-python
+         state: present
+     - name: MariaDB Service start and enable
+       service:
+         name: mariadb
+         state: started
+         enabled: true
+     - name: mysql_root_password
+       mysql_user:
+         name: root
+         host: localhost
+         password:  redhat
+         login_user: root
+         check_implicit_admin: yes
+         priv: "*.*:ALL,GRANT"
+... 
