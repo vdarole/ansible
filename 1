@@ -1,0 +1,12 @@
+---
+   - name: Zabbix Agent installation on Ubuntu server.
+     hosts: ubuntu
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Copy Zabbix Ubuntu Agent installation script to server.
+       copy: src=/home/ansible/script/zabbix4-Ubuntu-installation.sh
+     
+     - name: Execute the Zabbix Agent installation on servers.
+       shell: sh /tmp/zabbix4-Ubuntu-installation.sh 

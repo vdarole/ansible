@@ -1,0 +1,10 @@
+---
+   - name: Remove file from Centos Server.
+     hosts: centos
+     become: true
+     become_user: root
+     tasks:
+       - name: Delele file 17Apr.txt
+         file:
+            name: /root/task-17Apr.txt
+            state: absent 

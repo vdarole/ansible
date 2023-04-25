@@ -1,0 +1,17 @@
+---
+  - name: Web Server Installation.
+    hosts: centos:!pup01
+    become: true
+    become_user: root
+    gather_facts: false
+    tasks:
+    - name: Mail client configuration.
+      replace:
+        path: /etc/postfix/main.cf
+        regexp: 'pup01.darole.org'
+        replace: "192.168.2.213"
+    - name: Mail service restart
+      service:
+        name: postfix
+        state: restarted
+        enabled: true

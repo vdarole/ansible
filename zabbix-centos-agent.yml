@@ -1,0 +1,13 @@
+---
+   - name: Zabbix agent installation.
+     hosts: centos:!zap01    ## Exclude Zabbix server
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Copy Zabbix installation Script  
+       copy: src=/home/ansible/script/zabbix-Centos-installation.sh dest=/tmp/
+
+     - name: Execute the Zabbix installation Script
+       shell: sh /tmp/zabbix-Centos-installation.sh
+...
