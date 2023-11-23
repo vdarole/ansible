@@ -1,0 +1,36 @@
+---
+   - name: PHP Server Installation.
+     hosts: zap01
+     become: true
+     become_user: root
+     tasks:
+     - name: Installation of PHP
+       yum:
+         name: php, php-pear, php-cgi, php-common, php-mbstring, php-snmp, php-gd, php-pecl-mysql, php-xml, php-mysql, php-gettext, php-bcmath 
+         state: present
+
+     - name: Update the configuration file php.ini
+       replace:
+         path: /etc/php.ini
+         regexp: ';date.timezone ='
+         replace: 'date.timezone = Asia/Kolkata'
+       
+     - name: Update the configuration file php.ini
+       replace:
+         path: /etc/php.ini
+         regexp: 'post_max_size = 8M'
+         replace: 'post_max_size = 16M'
+
+     - name: Update the configuration file php.ini
+       replace:
+         path: /etc/php.ini
+         regexp: 'max_execution_time = 30'
+         replace: 'max_execution_time = 300'
+
+     - name: Update the configuration file php.ini
+       replace:
+         path: /etc/php.ini
+         regexp: 'max_input_time = 60'
+         replace: 'max_input_time = 300'
+   
+... 

@@ -1,0 +1,39 @@
+---
+   - name: Web Server Installation.
+     hosts: web01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Installation of Apache Package
+       yum:
+         name: httpd
+         state: present
+     - name: Creation of Index.html
+       copy:
+         content: "Welcome to Linux Automation Classes"
+         dest: /var/www/html/index.html
+     - name: HTTP Service
+       service:
+         name: httpd
+         state: restarted
+         enabled: true
+       tags:
+           - Restart Webservice
+
+   - name: Create file for installation on db01.
+     hosts: db01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Create file for database password update.
+       file:
+         path: /root/db_password
+         state: touch
+
+     - name: Create file for database and table creation.
+       file:
+         path: /root/db_create
+         state: touch
+...

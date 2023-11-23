@@ -1,0 +1,38 @@
+---
+   - name: Create table on database.
+     hosts: zap01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+
+     - name: Check if database status file exists
+       stat: 
+         path: /root/db_create
+       register: db_status  
+
+     - name: Copy SQL Script
+       copy: src=/home/ansible/zabbix-5/source/create-user.sql dest=/tmp/create-user.sql
+       when: db_status.stat.exists | default(true)
+
+     - name: Create user using SQL Script
+       shell: mysql -u root --password=redhat < /tmp/create-user.sql
+       when:  db_status.stat.exists | default(true)
+     
+     - name: Copy create.sql.gz to /tmp
+       shell: cp /usr/share/doc/zabbix-server-mysql*/create.sql.gz /tmp/
+       when:  db_status.stat.exists | default(true)
+       
+     - name: Unzip the sql script
+       shell: gunzip /tmp/create.sql.gz
+       when:  db_status.stat.exists | default(true)
+
+     - name: Create table using SQL Script
+       shell: mysql -u zabbix --password=redhat -D zabbix < /tmp/create.sql
+       when:  db_status.stat.exists | default(true)
+
+     - name: Remove database status file
+       file: 
+         path: /root/db_create
+         state: absent  
+...

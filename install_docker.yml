@@ -1,0 +1,71 @@
+---
+- name: Install Docker on Ubuntu
+  hosts: your_target_servers
+  become: true
+
+  tasks:
+    - name: Update apt package list
+      apt:
+        update_cache: yes
+      tags: update
+
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+      tags: dependencies
+
+    - name: Add Docker GPG key
+      ansible.builtin.shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg"
+      tags: docker_gpg_key
+
+    - name: Add Docker repository
+      apt_repository:
+        filename: docker
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+      tags: docker_repository
+
+    - name: Update apt package list again
+      apt:
+        update_cache: yes
+      tags: update
+
+    - name: Install Docker Engine
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      tags: install_docker
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+      tags: start_docker
+
+    - name: Add user to Docker group (optional)
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+      tags: add_user_to_docker
+
+    - name: Print Docker version
+      command: docker --version
+      tags: verify
+
+  handlers:
+    - name: Restart Docker service
+      systemd:
+        name: docker
+        state: restarted
