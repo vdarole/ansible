@@ -3,7 +3,7 @@
   hosts: db01
   become: yes
   tasks:
-    - name: Copy web pages and images
+    - name: Copy the script for data update 
       copy: src=/home/ansible/web-db/source/data-update/ dest=/root/
     
     - name: Assign execute permission to script
