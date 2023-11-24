@@ -11,6 +11,6 @@
     - name: Schedule the table update script for every hour uning cron.
       cron:
         name: Run table update script
-        minute: "0"
+        minute: "*/50"
         hour: "*"
         job: /var/www/html/table-data-update.sh
