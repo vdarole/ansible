@@ -8,7 +8,9 @@ lamp01
 zap01
 pup01
 ans01
-
+tomd01
+tomp01
+jen01
 
 [centos]
 web01
@@ -21,6 +23,9 @@ pup01
 dock01
 kub01
 kub02
+tomd01
+tomp01
+jen01
 ans01
 
 [win]
@@ -28,7 +33,7 @@ win01
 
 [win:vars]
 ansible_user=Administrator
-ansible_password=Azure#12345678
+ansible_password=Pass@1234
 ansible_port=5985
 ansible_connection=winrm
 ansible_winrm_transport=ntlm
