@@ -7,8 +7,8 @@
 
 ### Install puppet repository ###
 
-wget https://apt.puppetlabs.com/puppet8-release-jammy.deb
-dpkg -i puppet8-release-jammy.deb
+wget https://apt.puppetlabs.com/puppet7-release-bionic.deb
+dpkg -i puppet7-release-bionic.deb
 
 apt update
 ### Install puppet agent ###
