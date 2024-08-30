@@ -7,8 +7,10 @@
      tasks:
      - name: Installation of MariaDB
        yum:
-#         name: mariadb, mariadb-server, python3-PyMySQL
-         name: mariadb, mariadb-server, MySQL-python
+       # For RHEL 8
+         name: mariadb, mariadb-server, python3-PyMySQL
+      # For RHEL 7
+        # name: mariadb, mariadb-server, MySQL-python
          state: present
      - name: MariaDB Service start and enable
        service:
