@@ -12,4 +12,9 @@
        # For RHEL 7 
         # name: php, php-mysqli 
          state: present
+     - name: php-fpm Service start and enable
+       service:
+         name: php-fpm
+         state: started
+         enabled: true
 ... 
