@@ -7,6 +7,9 @@
      tasks:
      - name: Installation of PHP
        yum:
-         name: php, php-mysqli 
+       # For RHEL 8
+         name: php php-fpm php-mysqlnd php-opcache php-gd php-xml php-mbstring
+       # For RHEL 7 
+        # name: php, php-mysqli 
          state: present
 ... 
