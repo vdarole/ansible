@@ -12,12 +12,13 @@ tomd01
 tomp01
 jen01
 
-[centos]
+[redhat]
 web01
 db01
 lamp01
 zap01
 pup01
+jen01
 
 [ubuntu]
 dock01
@@ -25,7 +26,6 @@ kub01
 kub02
 tomd01
 tomp01
-jen01
 ans01
 
 [win]
