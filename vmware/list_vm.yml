@@ -1,0 +1,27 @@
+---
+- name: List snapshots of all VMs
+  hosts: localhost
+  gather_facts: false
+  collections:
+    - community.vmware
+  connection: local
+
+  vars:
+    vcenter_hostname: "vcenter01.darole.org"
+    vcenter_username: "administrator@vsphere.local"
+    vcenter_password: "Pass@1234"
+    datacenter_name: "darole-dc"
+
+  tasks:
+    - name: Get list of all VMs in the datacenter
+      vmware_vm_info:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: False
+      register: vm_list
+
+    - name: Display list of VMs
+      debug:
+              #        var: vm_list.virtual_machines
+        var: vm_list.virtual_machines
