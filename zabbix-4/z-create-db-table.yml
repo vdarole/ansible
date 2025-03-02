@@ -1,0 +1,20 @@
+---
+   - name: Create table on database.
+     hosts: zap01
+     become: true
+     become_user: root
+     tasks:
+
+     - name: Copy SQL Script
+       copy: src=/home/ansible/zabbix/source/create-user.sql dest=/tmp/create-user.sql
+
+     - name: Create user using SQL Script
+       shell: mysql -u root --password=redhat < /tmp/create-user.sql
+     
+     - name: Unzip the sql script
+       shell: gunzip /usr/share/doc/zabbix-server-mysql-4.0.43/create.sql.gz
+
+     - name: Create table using SQL Script
+       shell: mysql -u zabbix --password=redhat -D zabbix < /usr/share/doc/zabbix-server-mysql-4.0.43/create.sql
+
+...

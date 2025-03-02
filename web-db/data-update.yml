@@ -1,0 +1,19 @@
+---
+- name: Assign execute permission and schedule table update script.
+  hosts: db01
+  become: yes
+  tasks:
+    - name: Copy the script for data update 
+      copy: src=/home/ansible/web-db/source/data-update/ dest=/root/
+    
+    - name: Assign execute permission to script
+      file: 
+        path: /root/table-data-update.sh
+        mode: "+x"
+
+    - name: Schedule the table update script for every hour uning cron.
+      cron:
+        name: Run table update script
+        minute: "*/50"
+        hour: "*"
+        job: /root/table-data-update.sh

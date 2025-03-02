@@ -1,0 +1,10 @@
+---
+  - hosts: lamp01
+    become: true
+    become_user: root
+    gather_facts: no
+    tasks:
+    - name: Copy web pages and images
+      copy: src=/home/ansible/lamp01/source/web-pages/ dest=/var/www/html/
+
+...

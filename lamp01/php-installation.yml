@@ -1,0 +1,20 @@
+---
+   - name: Install of PHP packages.
+     hosts: lamp01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Installation of PHP
+       yum:
+       # For RHEL 8
+         name: php, php-fpm, php-mysqlnd, php-opcache, php-gd, php-xml, php-mbstring
+       # For RHEL 7 
+        # name: php, php-mysqli 
+         state: present
+     - name: php-fpm Service start and enable
+       service:
+         name: php-fpm
+         state: started
+         enabled: true
+... 

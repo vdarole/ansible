@@ -1,0 +1,43 @@
+---
+   - name: MariaDB Server Installation.
+     hosts: db01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Installation of MariaDB
+       yum:
+       # For RHEL 8
+         name: mariadb, mariadb-server, python3-PyMySQL
+      # For RHEL 7
+        # name: mariadb, mariadb-server, MySQL-python
+         state: present
+     - name: MariaDB Service start and enable
+       service:
+         name: mariadb
+         state: started
+         enabled: true
+
+     - name: Check if database status file exists
+       stat:
+         path: /root/db_password
+       register: db_status
+
+     - name: Set MySQL root password
+       mysql_user:
+         name: root
+         host: localhost
+         password:  redhat
+         login_user: root
+         check_implicit_admin: yes
+         priv: "*.*:ALL,GRANT"
+       when: db_status.stat.exists | default(true)
+
+     - name: Remove database status file
+       file:
+         path: /root/db_password
+         state: absent
+
+
+...
+

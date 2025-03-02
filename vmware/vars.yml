@@ -1,0 +1,18 @@
+---
+vcenter_hostname: "vcenter01.darole.org"
+vcenter_username: "administrator@vsphere.local"
+vcenter_password: "Pass@1234"
+vm_name: "tomd01-vm"
+template_name: "ubuntu"
+virtual_machine_datastore: "esxi02-datastore1"
+vcenter_validate_certs: false
+cluster_name: "my-cluster"
+vcenter_datacenter: "darole-dc"
+vm_folder: "tomd01-vm"
+vm_disk_gb: 2
+vm_disk_type: "thin"
+vm_disk_datastore: "esxi02-datastore1"
+vm_disk_scsi_controller: 1
+vm_disk_scsi_unit: 1
+vm_disk_scsi_type: "paravirtual"
+vm_disk_mode: "persistent"

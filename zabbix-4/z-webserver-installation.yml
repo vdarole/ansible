@@ -1,0 +1,22 @@
+---
+   - name: Web Server Installation.
+     hosts: zap01
+     become: true
+     become_user: root
+     tasks:
+     - name: Installation of Apache Package
+       yum:
+         name: httpd
+         state: present
+     - name: Creation of Index.html
+       copy:
+         content: "Welcome to Linux Automation Classes"
+         dest: /var/www/html/index.html
+     - name: HTTP Service
+       service:
+         name: httpd
+         state: restarted
+         enabled: true
+       tags:
+           - Restart Webservice	 
+... 

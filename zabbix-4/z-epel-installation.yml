@@ -1,0 +1,22 @@
+---
+   - name: EPEL Server Installation.
+     hosts: zap01
+     become: true
+     become_user: root
+     tasks:
+     - name: Installation of EPEL
+       yum:
+         name: epel-release, yum-utils 
+         state: present
+     
+     - name: Download remi-release-7 and install
+       yum: 
+         name: http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+         state: present
+
+     - name: Disable remi-php54 
+       shell: "yum-config-manager --disable remi-php54"
+     
+     - name: Enable remi-php72 
+       shell: "yum-config-manager --enable remi-php72"
+... 

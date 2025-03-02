@@ -1,0 +1,32 @@
+## Container orchestration		
+172.16.1.230	kub01.darole.org	kub01
+172.16.1.231	kub02.darole.org	kub02
+172.16.1.240	dock01.darole.org	dock01
+## VM		
+172.16.1.211	lamp01.darole.org	lamp01
+172.16.1.212	zap01.darole.org	zap01
+172.16.1.213	pup01.darole.org	pup01
+172.16.1.221	web01.darole.org	web01
+172.16.1.222	db01.darole.org	db01
+172.16.1.223	ans01.darole.org	ans01
+172.16.1.250	tomd01.darole.org	tomd01
+172.16.1.251	tomp01.darole.org	tomp01
+172.16.1.252	jen01.darole.org	jen01
+## Website		
+172.16.1.215	ninom.darole.org	
+172.16.1.216	online-education.darole.org	
+172.16.1.217	organic-farm.darole.org	
+172.16.1.218	travel.darole.org	
+172.16.1.219	jewellery.darole.org	
+172.16.1.220	carvilla.darole.org	
+172.16.1.225	jobsearch.darole.org	
+## VMWare		
+172.16.1.205	esxi01.darole.org	
+172.16.1.206	esxi02.darole.org	
+172.16.1.207	vcenter01.darole.org	
+172.16.1.200	win01.darole.org    win01	
+## VM Template		
+172.16.1.228	rocky	
+172.16.1.226	redhat	
+172.16.1.227	ubuntu	
+

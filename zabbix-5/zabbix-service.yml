@@ -1,0 +1,45 @@
+---
+   - name: Zabbix Service restart.
+     hosts: zap01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     
+     - name: Update memory limit in Zabbix configuration file zabbix.conf
+       replace:
+         path: /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
+         regexp: 'php_value\[memory_limit] = 128M'
+         replace: 'php_value[memory_limit] = 512M'
+
+     - name: Update date and time zone in Zabbix configuration file
+       replace:
+         path: /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
+         regexp: '; php_value\[date.timezone] = Europe/Riga'
+         replace: 'php_value[date.timezone] = Asia/Kolkata'
+
+     - name: Update DBHost in the database entry in zabbix_server.conf
+       replace:
+         path: /etc/zabbix/zabbix_server.conf
+         regexp: '# DBHost=localhost'
+         replace: ' DBHost=localhost'
+
+     - name: Update DBPassword in the database entry in zabbix_server.conf
+       replace:
+         path: /etc/zabbix/zabbix_server.conf
+         regexp: '# DBPassword='
+         replace: ' DBPassword=redhat'
+     
+     - name: Restart All services
+       service:
+         name: "{{ item }}"
+         state: restarted
+         enabled: true
+       loop:
+        - zabbix-server
+        - zabbix-agent
+        - httpd
+        - rh-php72-php-fpm
+        - mariadb
+
+... 

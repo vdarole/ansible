@@ -1,0 +1,14 @@
+---
+   - name: Create database on server.
+     hosts: lamp01
+     become: true
+     become_user: root
+     tasks:
+     - name: Create a new database 
+       mysql_db: 
+         name='{{ dbname }}' 
+         state=present 
+         login_user=root 
+         login_password=redhat
+         encoding=utf8
+...

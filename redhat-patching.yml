@@ -1,0 +1,61 @@
+---
+- name: Patch Red Hat Servers
+  hosts: redhat
+  become: yes
+  vars:
+    precheck_log: /tmp/precheck.log
+    postcheck_log: /tmp/postcheck.log
+
+  tasks:
+    - name: Pre-check - Check available disk space
+      shell: df -h / | tail -1 | awk '{print $4}' ; date
+      register: disk_space
+    - name: Log available disk space
+      lineinfile:
+        path: "{{ precheck_log }}"
+        line: "Available disk space before patching: {{ disk_space.stdout }}"
+
+    - name: Pre-check - Check current kernel version
+      shell: uname -r
+      register: kernel_version
+    - name: Log current kernel version
+      lineinfile:
+        path: "{{ precheck_log }}"
+        line: "Current kernel version: {{ kernel_version.stdout }}"
+
+    - name: Install yum-utils for needs-restarting command
+      yum:
+        name: yum-utils
+        state: present
+
+    - name: Apply patches
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Post-check - Check available disk space
+      shell: df -h / | tail -1 | awk '{print $4}' ; date
+      register: post_disk_space
+    - name: Log available disk space after patching
+      lineinfile:
+        path: "{{ postcheck_log }}"
+        line: "Available disk space after patching: {{ post_disk_space.stdout }}"
+
+    - name: Post-check - Check current kernel version
+      shell: uname -r
+      register: post_kernel_version
+    - name: Log current kernel version after patching
+      lineinfile:
+        path: "{{ postcheck_log }}"
+        line: "Kernel version after patching: {{ post_kernel_version.stdout }}"
+
+    - name: Reboot if kernel was updated
+      shell: "needs-restarting -r"
+      register: reboot_required
+      failed_when: reboot_required.rc not in [0, 1]
+      changed_when: reboot_required.rc == 1
+
+    - name: Reboot server
+      reboot:
+      when: reboot_required.rc == 1
+

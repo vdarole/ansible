@@ -1,0 +1,33 @@
+---
+   - name: Copy Web pages.
+     hosts: web01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+     - name: Copy SQL Script
+       copy: src=/home/ansible/web-db/source/web-pages/ dest=/var/www/html/
+
+   - name: Copy data update script 
+     hosts: db01
+     become: true
+     become_user: root
+     gather_facts: false
+     tasks:
+
+     - name: Copy SQL Script
+       copy: src=/home/ansible/web-db/source/data-update/ dest=/root/
+
+     - name: Assign execute permission to script
+       file:
+         path: /root/table-data-update.sh
+         mode: "+x"
+
+     - name: Schedule the table update script for every hour uning cron.
+       cron:
+         name: Run table update script
+         minute: "0"
+         hour: "*"
+         job: /root/table-data-update.sh
+
+...
