@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Interview Prep from File</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 40px 20px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .header-image {
+      width: 200px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .content {
+      flex: 1;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    #question {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #444;
+    }
+
+    textarea, input[type="file"] {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #quizSection {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="images/interview.png" alt="Interview Image" class="header-image">
+
+    <div class="content">
+      <h2>Interview Preparation App</h2>
+
+      <input type="file" id="fileInput" accept=".txt">
+      <button onclick="loadQuestions()">Load Questions</button>
+
+      <div id="quizSection" style="display:none;">
+        <div id="question"></div>
+        <textarea id="answer" placeholder="Type your answer here..."></textarea><br>
+        <button onclick="nextQuestion()">Next</button>
+        <button onclick="downloadAnswers()" style="display:none;">Download Answers</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let questions = [];
+    let current = 0;
+    const answers = [];
+
+    function speakText(text) {
+      const speech = new SpeechSynthesisUtterance(text);
+      speech.lang = "en-US";
+      window.speechSynthesis.speak(speech);
+    }
+
+    function loadQuestions() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Please select a question.txt file.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        questions = e.target.result.split('\n').filter(line => line.trim() !== '');
+        if (questions.length === 0) {
+          alert("No questions found in file.");
+          return;
+        }
+        document.getElementById('quizSection').style.display = 'block';
+        showQuestion();
+      };
+      reader.readAsText(file);
+    }
+
+    function showQuestion() {
+      const questionText = `Q${current + 1}: ${questions[current]}`;
+      document.getElementById("question").textContent = questionText;
+      speakText(questionText);
+      document.getElementById("answer").value = "";
+    }
+
+    function nextQuestion() {
+      const ans = document.getElementById("answer").value.trim();
+      answers.push(`Q${current + 1}: ${questions[current]}\nA: ${ans}\n`);
+
+      current++;
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        document.getElementById("question").textContent = "All questions answered!";
+        document.getElementById("answer").style.display = "none";
+        document.querySelector("#quizSection button").style.display = "none";
+        document.querySelector("#quizSection button + button").style.display = "inline-block";
+        speakText("All questions answered. Thank you!");
+      }
+    }
+
+    function downloadAnswers() {
+      const blob = new Blob([answers.join("\n")], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "interview-answers.txt";
+      link.click();
+    }
+  </script>
+</body>
+</html>
