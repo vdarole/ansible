@@ -12,6 +12,7 @@
 172.16.1.250	tomd01.darole.org	tomd01
 172.16.1.251	tomp01.darole.org	tomp01
 172.16.1.252	jen01.darole.org	jen01
+172.16.1.253    son01.darole.org  son01
 ## Website		
 172.16.1.215	ninom.darole.org	
 172.16.1.216	online-education.darole.org	
@@ -19,7 +20,8 @@
 172.16.1.218	travel.darole.org	
 172.16.1.219	jewellery.darole.org	
 172.16.1.220	carvilla.darole.org	
-172.16.1.225	jobsearch.darole.org	
+172.16.1.225	jobsearch.darole.org
+172.16.1.226    jobsearch.db
 ## VMWare		
 172.16.1.205	esxi01.darole.org	
 172.16.1.206	esxi02.darole.org	
